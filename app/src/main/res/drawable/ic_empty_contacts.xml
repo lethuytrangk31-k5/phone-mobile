@@ -1,0 +1,30 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="240dp"
+    android:height="180dp"
+    android:viewportWidth="240"
+    android:viewportHeight="180">
+    <!-- Rounded card background -->
+    <path
+        android:fillColor="#FF8CAEF3"
+        android:pathData="M24,0h192c13.25,0 24,10.75 24,24v132c0,13.25 -10.75,24 -24,24H24c-13.25,0 -24,-10.75 -24,-24V24C0,10.75 10.75,0 24,0z" />
+    <!-- User Head -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M75,70m-26,0a26,26 0 1,1 52,0a26,26 0 1,1 -52,0" />
+    <!-- User Body -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M38,136c0,-20.43 16.57,-37 37,-37s37,16.57 37,37z" />
+    <!-- Line 1 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M138,46h48c6.63,0 12,5.37 12,12s-5.37,12 -12,12h-48c-6.63,0 -12,-5.37 -12,-12s5.37,-12 12,-12z" />
+    <!-- Line 2 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M138,78h48c6.63,0 12,5.37 12,12s-5.37,12 -12,12h-48c-6.63,0 -12,-5.37 -12,-12s5.37,-12 12,-12z" />
+    <!-- Line 3 -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M138,110h48c6.63,0 12,5.37 12,12s-5.37,12 -12,12h-48c-6.63,0 -12,-5.37 -12,-12s5.37,-12 12,-12z" />
+</vector>
