@@ -16,6 +16,7 @@ import com.example.phone_mobile.data.model.sampleCallLogs
 import com.example.phone_mobile.data.model.sampleContacts
 import com.example.phone_mobile.ui.components.PhoneBottomBar
 import com.example.phone_mobile.ui.screens.call.CallHistoryScreen
+import com.example.phone_mobile.ui.screens.call.InCallScreen
 import com.example.phone_mobile.ui.screens.contact.AddEditContactScreen
 import com.example.phone_mobile.ui.screens.contact.ContactDetailScreen
 import com.example.phone_mobile.ui.screens.contact.ContactListScreen
@@ -27,6 +28,11 @@ sealed interface Screen {
     data class Detail(val contactId: String) : Screen
     data object Add : Screen
     data class Edit(val contactId: String) : Screen
+    data class InCall(
+        val phoneNumber: String,
+        val contactName: String?,
+        val previousScreen: Screen
+    ) : Screen
 }
 
 @Composable
@@ -38,33 +44,45 @@ fun MainApp() {
     var selectedTab by remember { mutableIntStateOf(2) } // Mặc định là tab Danh bạ
     var currentScreen by remember { mutableStateOf<Screen>(Screen.MainTabs) }
 
-    // Trạng thái cuộc gọi và số điện thoại trên bàn phím
+    // Số điện thoại ban đầu trên bàn phím (nếu có)
     var keypadPhoneNumber by remember { mutableStateOf("") }
-    var isCallingActive by remember { mutableStateOf(false) }
 
+    // Bắt đầu cuộc gọi: Mở trực tiếp màn hình In-Call chuẩn phong cách iOS
     fun initiateCall(phoneNumber: String, name: String? = null) {
-        val contactName = name ?: contacts.find { it.phoneNumber.replace(" ", "") == phoneNumber.replace(" ", "") }?.name ?: phoneNumber
-        
+        val contactName = name ?: contacts.find { 
+            it.phoneNumber.replace(" ", "") == phoneNumber.replace(" ", "") 
+        }?.name ?: phoneNumber
+
         keypadPhoneNumber = phoneNumber
-        isCallingActive = true
-        selectedTab = 1 // Chuyển sang menu Bàn phím
-        currentScreen = Screen.MainTabs // Quay về màn hình chính để hiển thị bàn phím nếu đang ở trang chi tiết
-
-        Toast.makeText(context, "Đang gọi cho: $contactName ($phoneNumber)...", Toast.LENGTH_SHORT).show()
-
-        // Thêm vào nhật ký cuộc gọi
-        val newCallLog = CallLog(
-            id = System.currentTimeMillis().toString(),
-            contactName = contactName,
+        currentScreen = Screen.InCall(
             phoneNumber = phoneNumber,
-            type = CallType.OUTGOING,
-            time = "Vừa xong",
-            duration = "00:00"
+            contactName = contactName,
+            previousScreen = currentScreen
         )
-        callLogs = listOf(newCallLog) + callLogs
     }
 
     when (val screen = currentScreen) {
+        is Screen.InCall -> {
+            InCallScreen(
+                phoneNumber = screen.phoneNumber,
+                contactName = screen.contactName,
+                onEndCall = { duration ->
+                    // Thêm vào nhật ký cuộc gọi
+                    val newCallLog = CallLog(
+                        id = System.currentTimeMillis().toString(),
+                        contactName = screen.contactName ?: screen.phoneNumber,
+                        phoneNumber = screen.phoneNumber,
+                        type = CallType.OUTGOING,
+                        time = "Vừa xong",
+                        duration = duration
+                    )
+                    callLogs = listOf(newCallLog) + callLogs
+                    Toast.makeText(context, "Cuộc gọi đã kết thúc ($duration)", Toast.LENGTH_SHORT).show()
+                    currentScreen = screen.previousScreen
+                }
+            )
+        }
+
         is Screen.MainTabs -> {
             when (selectedTab) {
                 0 -> {
@@ -86,13 +104,8 @@ fun MainApp() {
                     KeypadScreen(
                         initialPhoneNumber = keypadPhoneNumber,
                         contacts = contacts,
-                        isCalling = isCallingActive,
                         onMakeCall = { number, contactName ->
                             initiateCall(number, contactName)
-                        },
-                        onEndCall = {
-                            isCallingActive = false
-                            Toast.makeText(context, "Cuộc gọi đã kết thúc", Toast.LENGTH_SHORT).show()
                         },
                         bottomBar = {
                             PhoneBottomBar(

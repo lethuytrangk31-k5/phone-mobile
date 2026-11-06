@@ -42,13 +42,18 @@
 5. **Bàn phím quay số thông minh (Keypad / Dialpad):**
    - Bàn phím số 3x4 bo tròn (1-9, \*, 0, #) kèm ký tự chữ cái (ABC, DEF...).
    - **Nhận diện danh bạ thời gian thực:** Tự động dò tìm trong danh bạ và hiển thị ngay họ tên người nhận kèm ngôi sao yêu thích trên màn hình bàn phím khi số khớp.
-   - **Trạng thái cuộc gọi trực tiếp (In-Call UI):** Khi bấm gọi (từ bất kỳ màn hình nào), ứng dụng chuyển ngay về Bàn phím, hiện tên + SĐT, hiển thị bộ đếm thời lượng cuộc gọi (`00:01`, `00:02`...) và nút `Kết thúc` cúp máy màu đỏ.
 
-6. **Danh bạ yêu thích (Favorites):**
+6. **Giao diện cuộc gọi toàn màn hình phong cách iPhone (In-Call Screen):**
+   - **Trực quan & Hiện đại:** Khi bấm gọi từ bất kỳ màn hình nào (Danh bạ, Chi tiết, Yêu thích, Lịch sử hay Bàn phím), ứng dụng mở trực tiếp màn hình cuộc gọi riêng biệt phong cách iOS, không chuyển vào tab bàn phím.
+   - **Thông tin cuộc gọi:** Tên liên hệ to rõ nét, số điện thoại phụ, avatar profile bo tròn và trạng thái kết nối chuyển tiếp mượt mà từ "đang gọi..." sang bộ đếm thời lượng cuộc gọi (`00:01`, `00:02`...).
+   - **Lưới 6 nút chức năng chuẩn iOS:** Tắt tiếng (Mute - đổi trạng thái sáng/tối), Bàn phím (mở bàn phím số DTMF trong cuộc gọi với nút Ẩn), Loa ngoài (Speaker), Thêm cuộc gọi, FaceTime, Danh bạ.
+   - **Nút kết thúc cuộc gọi đỏ tròn:** Nút cúp máy lớn 75dp màu đỏ (`#FF3B30`), tự động lưu thời lượng cuộc gọi vào nhật ký và quay lại màn hình trước đó.
+
+7. **Danh bạ yêu thích (Favorites):**
    - Danh sách gom các liên hệ quan trọng được đánh dấu sao.
    - Cung cấp **bộ đôi nút thao tác nhanh** ở mỗi dòng: Gọi điện thoại (`ic_call`) và Nhắn tin nhanh (`ic_chat_bubble`) chuẩn Figma Group 71.
 
-7. **Nhật ký cuộc gọi (Recents / Call History):**
+8. **Nhật ký cuộc gọi (Recents / Call History):**
    - Phân loại rõ ràng các loại cuộc gọi với icon và màu sắc riêng:
      - 🟢 **Cuộc gọi đến (Incoming):** Mũi tên xanh lá
      - 🔵 **Cuộc gọi đi (Outgoing):** Mũi tên xanh dương
@@ -85,7 +90,8 @@ phone-mobile/
 │   │   │   │   │   │   └── PhoneBottomBar.kt   # Thanh điều hướng 4 tab dùng chung
 │   │   │   │   │   ├── screens/
 │   │   │   │   │   │   ├── call/
-│   │   │   │   │   │   │   └── CallHistoryScreen.kt    # Màn hình Lịch sử cuộc gọi
+│   │   │   │   │   │   │   ├── CallHistoryScreen.kt    # Màn hình Lịch sử cuộc gọi
+│   │   │   │   │   │   │   └── InCallScreen.kt         # Màn hình Cuộc gọi toàn màn hình chuẩn iPhone
 │   │   │   │   │   │   ├── contact/
 │   │   │   │   │   │   │   ├── ContactListScreen.kt    # Màn hình Danh bạ & Danh bạ trống
 │   │   │   │   │   │   │   ├── ContactDetailScreen.kt  # Chi tiết liên hệ & Hộp thoại xóa
@@ -93,7 +99,7 @@ phone-mobile/
 │   │   │   │   │   │   ├── favorite/
 │   │   │   │   │   │   │   └── FavoritesScreen.kt      # Màn hình Danh bạ yêu thích
 │   │   │   │   │   │   └── keypad/
-│   │   │   │   │   │       └── KeypadScreen.kt         # Bàn phím số & In-Call UI
+│   │   │   │   │   │       └── KeypadScreen.kt         # Bàn phím số (Dialpad)
 │   │   │   │   │   ├── theme/
 │   │   │   │   │   │   ├── Color.kt        # Hệ thống màu thiết kế Figma
 │   │   │   │   │   │   ├── Theme.kt        # Cấu hình MaterialTheme
